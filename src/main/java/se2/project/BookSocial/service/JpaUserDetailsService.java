@@ -9,7 +9,9 @@ import se2.project.BookSocial.repository.UserRepository;
 
 @Service
 public class JpaUserDetailsService implements UserDetailsService {
+
     private final UserRepository userRepository;
+
 
     public JpaUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;

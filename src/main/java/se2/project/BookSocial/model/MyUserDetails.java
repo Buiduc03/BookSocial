@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 public class MyUserDetails implements UserDetails {
     private User user;
@@ -27,6 +28,13 @@ public class MyUserDetails implements UserDetails {
     public String getBio() {
         return user.getBio();
     }
+    public List<Follow> getFollowers() {
+        return user.getFollowers();
+    }
+    public List<Follow> getFollowing() {
+        return user.getFollowing();
+    }
+
     @Override
     public String getUsername() {
         return user.getUsername();

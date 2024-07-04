@@ -3,6 +3,8 @@ package se2.project.BookSocial.model;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User {
@@ -14,8 +16,12 @@ public class User {
     private String fullname;
     private String avatar;
     private String bio;
-    private int followers;
-    private int following;
+
+    @OneToMany(mappedBy = "followed")
+    private List<Follow> followers;
+
+    @OneToMany(mappedBy = "follower")
+    private List<Follow> following;
 
     public User() {
     }
@@ -74,19 +80,20 @@ public class User {
         this.bio = bio;
     }
 
-    public int getFollowers() {
+    public List<Follow> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(int followers) {
+    public void setFollowers(List<Follow> followers) {
         this.followers = followers;
     }
 
-    public int getFollowing() {
+    public List<Follow> getFollowing() {
         return following;
     }
 
-    public void setFollowing(int following) {
+    public void setFollowing(List<Follow> following) {
         this.following = following;
     }
+
 }

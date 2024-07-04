@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="_layout" xmlns:sec="http://www.w3.org/1999/xhtml">
+      layout:decorate="_layout" >
 
 <head>
     <meta charset="UTF-8">
@@ -39,6 +39,11 @@
                 </div>
             </div>
             <br>
+            <div th:each="otherUser : ${otherUsers}">
+                <div th:if="${otherUser.id != currentUser.id}">
+                    <a th:href="'/user/' + ${otherUser.id}" th:text="${otherUser.fullname}"></a>
+                </div>
+            </div>
         </nav>
     </aside>
     <div class="content">

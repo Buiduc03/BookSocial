@@ -22,6 +22,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JpaUserDetailsService jpaUserDetailsService) throws Exception {
         return http
                 .userDetailsService(jpaUserDetailsService)
+
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/register", "/css/**").permitAll()
                         .anyRequest().authenticated())

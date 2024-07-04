@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookaholic</title>
-    <link href="/css/user.css" rel="stylesheet">
-    <script type="text/javascript" th:src="@{/js/user.js}" defer></script>
+    <link href="/css/otherUser.css" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/otherUser.js}" defer></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,70 +16,48 @@
 </head>
 <body>
 <div class="container" layout:fragment="content">
-    <div class="form-popup" id="wantToReadForm">
-        <form class="form-container" method="post" th:action="@{/saveUser}">
-            <input type="hidden" name="id" th:value="${user.id}"/>
-            <input type="hidden" name="username" th:value="${user.username}"/>
-            <input type="hidden" name="password" th:value="${user.password}"/>
-            <h2>Edit Your Profile</h2>
-            <div class="form-group">
-                <label for="fullname"></label>
-                <input type="text" id="fullname" name="fullname" placeholder="Enter your fullname"
-                       th:field="*{user.fullname}" required/>
-            </div>
-            <div class="form-group">
-                <label for="bio"></label>
-                <input type="text" id="bio" name="bio" placeholder="Write something to your bio" th:field="*{user.bio}"
-                       required/>
-            </div>
-            <div class="form-group">
-                <label for="avatar"></label>
-                <input type="text" id="avatar" name="avatar" placeholder="Enter your image url link"
-                       th:field="*{user.avatar}" required/>
-            </div>
-            <div class="postBtn">
-                <button type="submit" class="post">Save</button>
-            </div>
-        </form>
-    </div>
-
-    <div class="overlay" id="overlay" onclick="closeForm()"></div>
     <div class="userInfo">
         <div class="userAvatar">
-            <img th:if="${user.avatar != null}" th:src="${user.avatar}" alt="userAvatar"/>
-            <img th:if="${user.avatar == null}" src="https://picsum.photos/200" alt="userAvatar"/>
-
+            <img th:if="${otherUser.avatar != null}" th:src="${otherUser.avatar}" alt="userAvatar"/>
+            <img th:if="${otherUser.avatar == null}" src="https://picsum.photos/200" alt="userAvatar"/>
         </div>
         <div class="userDetail">
             <div class="userName">
-                <h3>[[${user.getFullname()}]]</h3>
-                <button onclick="showForm()">
-                    Edit Profile
-                </button>
+                <h3 th:text="${otherUser.fullname}"></h3>
+                <form class="flBtn" th:action="@{/followUser}" method="post">
+                    <input type="hidden" name="id" th:value="${otherUser.id}"/>
+                    <div th:if="${checkIfExisted == null}">
+                        <button class="follow" id="follow" type="submit">
+                            Follow
+                        </button>
+                    </div>
+                </form>
+                <form class="flBtn" th:action="@{/unFollowUser}" method="post">
+                    <input type="hidden" name="id" th:value="${otherUser.id}"/>
+                    <div>
+                        <button class="unfollow" id="unfollow" type="submit">
+                            Unfollow
+                        </button>
+                    </div>
+                </form>
             </div>
             <div class="follow">
                 <div class="followers">
-                    <h3 class="number">[[${user.getFollowers().size()}]]</h3>
+                    <h3 class="number">[[${otherUser.followers.size()}]]</h3>
                     <h3>Followers</h3>
                 </div>
                 <div class="following">
-                    <h3 class="number">[[${user.getFollowing().size()}]]</h3>
+                    <h3 class="number">[[${otherUser.following.size()}]]</h3>
                     <h3>Following</h3>
                 </div>
             </div>
             <div class="bio">
-                <p>[[${user.getBio()}]]</p>
+                <p th:text="${otherUser.bio}"></p>
             </div>
         </div>
     </div>
     <div class="bookShelves">
-        <h2>My Bookshelves</h2>
         <div class="bookShelvesContent">
-            <div class="bookTag">
-                <button>
-                    Read
-                </button>
-            </div>
             <div class="books">
                 <div class="content">
                     <div class="bookCoverImg">
@@ -197,7 +175,7 @@
     </div>
     <div class="myQuotes">
         <div class="quotes">
-            <h2>My Quotes</h2>
+            <h2>[[${otherUser.fullname}]]'s Quotes</h2>
             <a th:href="@{/quotes/myquotes}">
                 Show More
             </a>
